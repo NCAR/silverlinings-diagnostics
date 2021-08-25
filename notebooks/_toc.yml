@@ -1,4 +1,6 @@
 format: jb-book
 root: intro
 chapters:
-- file:  Notebook_Template
+- file: 00_Build_the_Catalog
+- file: 01_Compute_Averages
+- file: 02_Plot_Output
