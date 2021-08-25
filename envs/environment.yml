@@ -15,5 +15,5 @@ dependencies:
     - ncar-jobqueue
     - intake-esm
     - pip
-    pip:
-    - ecgtools
+    - pip:
+      - ecgtools
