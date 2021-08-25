@@ -11,3 +11,9 @@ dependencies:
     - jupyter
     - jupyterlab
     - netCDF4
+    - ipykernel
+    - ncar-jobqueue
+    - intake-esm
+    - pip
+    pip:
+    - ecgtools
