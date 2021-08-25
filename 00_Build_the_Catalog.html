@@ -1,0 +1,641 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Build the data catalog &#8212; Analysis Project Template</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.e8f53015daec13862f6db5e763c41738.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Temperature Diagnostics" href="01_Compute_Averages.html" />
+    <link rel="prev" title="Introduction" href="intro.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      <h1 class="site-logo" id="site-title">Analysis Project Template</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Introduction
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Build the data catalog
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01_Compute_Averages.html">
+   Temperature Diagnostics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02_Plot_Output.html">
+   Plot the Output
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/00_Build_the_Catalog.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/00_Build_the_Catalog.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#imports">
+   Imports
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setup-the-builder">
+   Setup the Builder
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#build-the-catalog">
+   Build the Catalog
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#save-the-catalog">
+   Save the Catalog
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="build-the-data-catalog">
+<h1>Build the data catalog<a class="headerlink" href="#build-the-data-catalog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="imports">
+<h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ecgtools</span> <span class="kn">import</span> <span class="n">Builder</span>
+<span class="kn">from</span> <span class="nn">ecgtools.parsers.cesm</span> <span class="kn">import</span> <span class="n">parse_cesm_timeseries</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="setup-the-builder">
+<h2>Setup the Builder<a class="headerlink" href="#setup-the-builder" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">Builder</span><span class="p">(</span>
+    <span class="c1"># Where to look for model output</span>
+    <span class="s2">&quot;/glade/campaign/cesm/development/wawg/WACCM6-TSMLT-GEO/SAI1/&quot;</span><span class="p">,</span>
+    <span class="n">exclude_patterns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*/hist/*&quot;</span><span class="p">,</span> <span class="s2">&quot;*/rest/*&quot;</span><span class="p">],</span>
+    <span class="n">njobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="build-the-catalog">
+<h2>Build the Catalog<a class="headerlink" href="#build-the-catalog" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span><span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">parse_cesm_timeseries</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Parallel(n_jobs=-1)]: Using backend LokyBackend with 40 concurrent workers.
+[Parallel(n_jobs=-1)]: Done   3 out of   8 | elapsed:    2.5s remaining:    4.2s
+[Parallel(n_jobs=-1)]: Done   5 out of   8 | elapsed:    3.8s remaining:    2.3s
+[Parallel(n_jobs=-1)]: Done   8 out of   8 | elapsed:    5.8s finished
+[Parallel(n_jobs=-1)]: Using backend LokyBackend with 40 concurrent workers.
+[Parallel(n_jobs=-1)]: Done  82 tasks      | elapsed:    5.5s
+[Parallel(n_jobs=-1)]: Done 208 tasks      | elapsed:    6.1s
+[Parallel(n_jobs=-1)]: Done 370 tasks      | elapsed:    6.7s
+[Parallel(n_jobs=-1)]: Done 568 tasks      | elapsed:    7.4s
+[Parallel(n_jobs=-1)]: Done 802 tasks      | elapsed:    8.4s
+[Parallel(n_jobs=-1)]: Done 1072 tasks      | elapsed:    9.5s
+[Parallel(n_jobs=-1)]: Done 1378 tasks      | elapsed:   10.8s
+[Parallel(n_jobs=-1)]: Done 1720 tasks      | elapsed:   12.4s
+[Parallel(n_jobs=-1)]: Done 2098 tasks      | elapsed:   14.1s
+[Parallel(n_jobs=-1)]: Done 2512 tasks      | elapsed:   15.8s
+[Parallel(n_jobs=-1)]: Done 2962 tasks      | elapsed:   17.7s
+[Parallel(n_jobs=-1)]: Done 3448 tasks      | elapsed:   19.6s
+[Parallel(n_jobs=-1)]: Done 3970 tasks      | elapsed:   21.6s
+[Parallel(n_jobs=-1)]: Done 4528 tasks      | elapsed:   24.0s
+[Parallel(n_jobs=-1)]: Done 5122 tasks      | elapsed:   26.8s
+[Parallel(n_jobs=-1)]: Done 5752 tasks      | elapsed:   29.5s
+[Parallel(n_jobs=-1)]: Done 6418 tasks      | elapsed:   31.9s
+[Parallel(n_jobs=-1)]: Done 7120 tasks      | elapsed:   34.7s
+[Parallel(n_jobs=-1)]: Done 7858 tasks      | elapsed:   38.2s
+[Parallel(n_jobs=-1)]: Done 8632 tasks      | elapsed:   42.0s
+[Parallel(n_jobs=-1)]: Done 9442 tasks      | elapsed:   45.6s
+[Parallel(n_jobs=-1)]: Done 10288 tasks      | elapsed:   49.1s
+[Parallel(n_jobs=-1)]: Done 11170 tasks      | elapsed:   53.0s
+[Parallel(n_jobs=-1)]: Done 12088 tasks      | elapsed:   57.4s
+[Parallel(n_jobs=-1)]: Done 13042 tasks      | elapsed:  1.0min
+[Parallel(n_jobs=-1)]: Done 14032 tasks      | elapsed:  1.1min
+[Parallel(n_jobs=-1)]: Done 15058 tasks      | elapsed:  1.2min
+[Parallel(n_jobs=-1)]: Done 16120 tasks      | elapsed:  1.2min
+[Parallel(n_jobs=-1)]: Done 17218 tasks      | elapsed:  1.3min
+[Parallel(n_jobs=-1)]: Done 18352 tasks      | elapsed:  1.4min
+[Parallel(n_jobs=-1)]: Done 20204 tasks      | elapsed:  1.5min
+[Parallel(n_jobs=-1)]: Done 22616 tasks      | elapsed:  1.7min
+[Parallel(n_jobs=-1)]: Done 25500 out of 25579 | elapsed:  1.9min remaining:    0.4s
+[Parallel(n_jobs=-1)]: Done 25579 out of 25579 | elapsed:  1.9min finished
+/glade/u/home/mgrover/.local/lib/python3.9/site-packages/ecgtools/builder.py:179: UserWarning: Unable to parse 84 assets/files. A list of these assets can be found in `.invalid_assets` attribute.
+  self.get_directories().get_filelist()._parse(
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span><span class="o">.</span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>component</th>
+      <th>stream</th>
+      <th>case</th>
+      <th>member_id</th>
+      <th>variable</th>
+      <th>start_time</th>
+      <th>end_time</th>
+      <th>time_range</th>
+      <th>long_name</th>
+      <th>units</th>
+      <th>vertical_levels</th>
+      <th>frequency</th>
+      <th>path</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>atm</td>
+      <td>cam.h4</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-DEFAULT.006</td>
+      <td>6.0</td>
+      <td>TS</td>
+      <td>2045-01-01T00</td>
+      <td>2055-01-01T00</td>
+      <td>2045010100-2055010100</td>
+      <td>Surface temperature (radiative)</td>
+      <td>K</td>
+      <td>1.0</td>
+      <td>hour_1</td>
+      <td>/glade/campaign/cesm/development/wawg/WACCM6-T...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>atm</td>
+      <td>cam.h4</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-DEFAULT.006</td>
+      <td>6.0</td>
+      <td>PM25_SRF</td>
+      <td>2045-01-01T00</td>
+      <td>2055-01-01T00</td>
+      <td>2045010100-2055010100</td>
+      <td>surface PM2.5 concentration</td>
+      <td>kg/m3</td>
+      <td>1.0</td>
+      <td>hour_1</td>
+      <td>/glade/campaign/cesm/development/wawg/WACCM6-T...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>atm</td>
+      <td>cam.h4</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-DEFAULT.006</td>
+      <td>6.0</td>
+      <td>PRECT</td>
+      <td>2055-01-01T00</td>
+      <td>2065-01-01T00</td>
+      <td>2055010100-2065010100</td>
+      <td>Total (convective and large-scale) precipitati...</td>
+      <td>m/s</td>
+      <td>1.0</td>
+      <td>hour_1</td>
+      <td>/glade/campaign/cesm/development/wawg/WACCM6-T...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>atm</td>
+      <td>cam.h4</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-DEFAULT.006</td>
+      <td>6.0</td>
+      <td>f107p</td>
+      <td>2055-01-01T00</td>
+      <td>2065-01-01T00</td>
+      <td>2055010100-2065010100</td>
+      <td>Pervious day 10.7 cm solar radio flux (F10.7)</td>
+      <td>None</td>
+      <td>1.0</td>
+      <td>hour_1</td>
+      <td>/glade/campaign/cesm/development/wawg/WACCM6-T...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>atm</td>
+      <td>cam.h4</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-DEFAULT.006</td>
+      <td>6.0</td>
+      <td>f107</td>
+      <td>2055-01-01T00</td>
+      <td>2065-01-01T00</td>
+      <td>2055010100-2065010100</td>
+      <td>10.7 cm solar radio flux (F10.7)</td>
+      <td>10^-22 W m^-2 Hz^-1</td>
+      <td>1.0</td>
+      <td>hour_1</td>
+      <td>/glade/campaign/cesm/development/wawg/WACCM6-T...</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>25574</th>
+      <td>ice</td>
+      <td>cice.h1</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-DEFAULT.002</td>
+      <td>2.0</td>
+      <td>congel_d</td>
+      <td>2035-01-01</td>
+      <td>2069-12-31</td>
+      <td>20350101-20691231</td>
+      <td>congelation ice growth</td>
+      <td>cm/day</td>
+      <td>1.0</td>
+      <td>day_1</td>
+      <td>/glade/campaign/cesm/development/wawg/WACCM6-T...</td>
+    </tr>
+    <tr>
+      <th>25575</th>
+      <td>ice</td>
+      <td>cice.h1</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-DEFAULT.002</td>
+      <td>2.0</td>
+      <td>frazil_d</td>
+      <td>2035-01-01</td>
+      <td>2069-12-31</td>
+      <td>20350101-20691231</td>
+      <td>frazil ice growth</td>
+      <td>cm/day</td>
+      <td>1.0</td>
+      <td>day_1</td>
+      <td>/glade/campaign/cesm/development/wawg/WACCM6-T...</td>
+    </tr>
+    <tr>
+      <th>25576</th>
+      <td>ice</td>
+      <td>cice.h1</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-DEFAULT.002</td>
+      <td>2.0</td>
+      <td>daidtt_d</td>
+      <td>2035-01-01</td>
+      <td>2069-12-31</td>
+      <td>20350101-20691231</td>
+      <td>area tendency thermo</td>
+      <td>%/day</td>
+      <td>1.0</td>
+      <td>day_1</td>
+      <td>/glade/campaign/cesm/development/wawg/WACCM6-T...</td>
+    </tr>
+    <tr>
+      <th>25577</th>
+      <td>ice</td>
+      <td>cice.h1</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-DEFAULT.002</td>
+      <td>2.0</td>
+      <td>meltb_d</td>
+      <td>2035-01-01</td>
+      <td>2069-12-31</td>
+      <td>20350101-20691231</td>
+      <td>basal ice melt</td>
+      <td>cm/day</td>
+      <td>1.0</td>
+      <td>day_1</td>
+      <td>/glade/campaign/cesm/development/wawg/WACCM6-T...</td>
+    </tr>
+    <tr>
+      <th>25578</th>
+      <td>ice</td>
+      <td>cice.h1</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-DEFAULT.002</td>
+      <td>2.0</td>
+      <td>hi_d</td>
+      <td>2035-01-01</td>
+      <td>2069-12-31</td>
+      <td>20350101-20691231</td>
+      <td>grid cell mean ice thickness</td>
+      <td>m</td>
+      <td>1.0</td>
+      <td>day_1</td>
+      <td>/glade/campaign/cesm/development/wawg/WACCM6-T...</td>
+    </tr>
+  </tbody>
+</table>
+<p>25495 rows × 13 columns</p>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="save-the-catalog">
+<h2>Save the Catalog<a class="headerlink" href="#save-the-catalog" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
+    <span class="s1">&#39;data/silver-linings-test.csv&#39;</span><span class="p">,</span>
+    <span class="c1"># Column name including filepath</span>
+    <span class="n">path_column_name</span><span class="o">=</span><span class="s1">&#39;path&#39;</span><span class="p">,</span>
+    <span class="c1"># Column name including variables</span>
+    <span class="n">variable_column_name</span><span class="o">=</span><span class="s1">&#39;variable&#39;</span><span class="p">,</span>
+    <span class="c1"># Data file format - could be netcdf or zarr (in this case, netcdf)</span>
+    <span class="n">data_format</span><span class="o">=</span><span class="s2">&quot;netcdf&quot;</span><span class="p">,</span>
+    <span class="c1"># Which attributes to groupby when reading in variables using intake-esm</span>
+    <span class="n">groupby_attrs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;component&quot;</span><span class="p">,</span> <span class="s2">&quot;stream&quot;</span><span class="p">,</span> <span class="s2">&quot;case&quot;</span><span class="p">],</span>
+    <span class="c1"># Aggregations which are fed into xarray when reading in data using intake</span>
+    <span class="n">aggregations</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;join_existing&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;attribute_name&quot;</span><span class="p">:</span> <span class="s2">&quot;time_range&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;dim&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="s2">&quot;minimal&quot;</span><span class="p">,</span> <span class="s2">&quot;compat&quot;</span><span class="p">:</span> <span class="s2">&quot;override&quot;</span><span class="p">},</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved catalog location: data/silver-linings-test.json and data/silver-linings-test.csv
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/glade/scratch/mgrover/ipykernel_86921/956542312.py:1: UserWarning: Unable to parse 84 assets/files. A list of these assets can be found in data/invalid_assets_silver-linings-test.csv.
+  b.save(
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "conda-env-miniconda3-silverlinings-diagnostics-dev-py"
+        },
+        kernelOptions: {
+            kernelName: "conda-env-miniconda3-silverlinings-diagnostics-dev-py",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'conda-env-miniconda3-silverlinings-diagnostics-dev-py'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+    <div id="prev">
+        <a class="left-prev" href="intro.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Introduction</p>
+            </div>
+        </a>
+    </div>
+     <div id="next">
+        <a class="right-next" href="01_Compute_Averages.html" title="next page">
+            <div class="prevnext-info">
+                <p class="prevnext-label">next</p>
+                <p class="prevnext-title">Temperature Diagnostics</p>
+            </div>
+            <i class="prevnext-label fas fa-angle-right"></i>
+        </a>
+     </div>
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By NCAR ESDS Team<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>
