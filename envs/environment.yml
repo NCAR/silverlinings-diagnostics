@@ -1,4 +1,4 @@
-name: analysis
+name: silverlinings-diagnostics-dev
 channels:
     - conda-forge
     - nodefaults
