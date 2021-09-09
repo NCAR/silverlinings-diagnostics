@@ -1,0 +1,779 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Build the data catalog &#8212; Silverlinings Project Diagnostics</title>
+    
+  <link href="_static/css/theme.css" rel="stylesheet" />
+  <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.e8f53015daec13862f6db5e763c41738.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="index.html">
+      
+      
+      <h1 class="site-logo" id="site-title">Silverlinings Project Diagnostics</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="intro.html">
+   Introduction
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="00_Build_the_Catalog.html">
+   Build the data catalog
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="01_Compute_Averages.html">
+   Temperature Diagnostics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="02_Plot_Output.html">
+   Plot the Output
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/00_Build_the_Catalog_history.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/00_Build_the_Catalog_history.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#imports">
+   Imports
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#setup-the-builder">
+   Setup the Builder
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#build-the-catalog">
+   Build the Catalog
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#save-the-catalog">
+   Save the Catalog
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="build-the-data-catalog">
+<h1>Build the data catalog<a class="headerlink" href="#build-the-data-catalog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="imports">
+<h2>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ecgtools</span> <span class="kn">import</span> <span class="n">Builder</span>
+<span class="kn">from</span> <span class="nn">ecgtools.parsers.cesm</span> <span class="kn">import</span> <span class="n">parse_cesm_history</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="setup-the-builder">
+<h2>Setup the Builder<a class="headerlink" href="#setup-the-builder" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">Builder</span><span class="p">(</span>
+    <span class="c1"># Where to look for model output</span>
+    <span class="s2">&quot;/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001&quot;</span><span class="p">,</span>
+    <span class="n">exclude_patterns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;*/rest/*&quot;</span><span class="p">],</span>
+    <span class="n">njobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="build-the-catalog">
+<h2>Build the Catalog<a class="headerlink" href="#build-the-catalog" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span><span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">parse_cesm_history</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Parallel(n_jobs=-1)]: Using backend LokyBackend with 40 concurrent workers.
+[Parallel(n_jobs=-1)]: Done   4 out of  11 | elapsed:    0.5s remaining:    0.8s
+[Parallel(n_jobs=-1)]: Done   7 out of  11 | elapsed:    0.5s remaining:    0.3s
+[Parallel(n_jobs=-1)]: Done  11 out of  11 | elapsed:    0.5s finished
+[Parallel(n_jobs=-1)]: Using backend LokyBackend with 40 concurrent workers.
+[Parallel(n_jobs=-1)]: Done   4 out of  34 | elapsed:    2.8s remaining:   20.9s
+[Parallel(n_jobs=-1)]: Done  11 out of  34 | elapsed:    2.9s remaining:    6.0s
+[Parallel(n_jobs=-1)]: Done  18 out of  34 | elapsed:    2.9s remaining:    2.6s
+[Parallel(n_jobs=-1)]: Done  25 out of  34 | elapsed:    3.2s remaining:    1.1s
+[Parallel(n_jobs=-1)]: Done  32 out of  34 | elapsed:    3.4s remaining:    0.2s
+[Parallel(n_jobs=-1)]: Done  34 out of  34 | elapsed:    3.5s finished
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span><span class="o">.</span><span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>component</th>
+      <th>stream</th>
+      <th>date</th>
+      <th>case</th>
+      <th>member_id</th>
+      <th>frequency</th>
+      <th>variables</th>
+      <th>path</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>atm</td>
+      <td>cam.h0</td>
+      <td>2035-01</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>month_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>atm</td>
+      <td>cam.h0</td>
+      <td>2035-02</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>month_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>atm</td>
+      <td>cam.h0</td>
+      <td>2035-03</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>month_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>atm</td>
+      <td>cam.h0</td>
+      <td>2035-04</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>month_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>atm</td>
+      <td>cam.h0</td>
+      <td>2035-05</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>month_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>atm</td>
+      <td>cam.h0</td>
+      <td>2035-06</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>month_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>atm</td>
+      <td>cam.h0</td>
+      <td>2035-07</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>month_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>atm</td>
+      <td>cam.h0</td>
+      <td>2035-08</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>month_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>atm</td>
+      <td>cam.h0</td>
+      <td>2035-09</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>month_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>atm</td>
+      <td>cam.h0</td>
+      <td>2035-10</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>month_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>atm</td>
+      <td>cam.h0</td>
+      <td>2035-11</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>month_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>atm</td>
+      <td>cam.h0</td>
+      <td>2035-12</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>month_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-01-01-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-01-06-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-01-11-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>15</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-01-16-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-01-21-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>17</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-01-26-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>18</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-01-31-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>19</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-02-05-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-02-10-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-02-15-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>22</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-02-20-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>23</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-02-25-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>24</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-03-02-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-03-07-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-03-12-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-03-17-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-03-22-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-03-27-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-04-01-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-04-06-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-04-11-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+    <tr>
+      <th>33</th>
+      <td>atm</td>
+      <td>cam.h1</td>
+      <td>2035-04-16-00000</td>
+      <td>b.e21.BW.f09_g17.SSP245-TSMLT-GAUSS-LOWER-0.5.001</td>
+      <td>001</td>
+      <td>day_1</td>
+      <td>[date, datesec, date_written, time_written, nd...</td>
+      <td>/glade/scratch/geostrat/aws/b.e21.BW.f09_g17.S...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="save-the-catalog">
+<h2>Save the Catalog<a class="headerlink" href="#save-the-catalog" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
+    <span class="s1">&#39;data/silver-linings-aws-year1.csv&#39;</span><span class="p">,</span>
+    <span class="c1"># Column name including filepath</span>
+    <span class="n">path_column_name</span><span class="o">=</span><span class="s1">&#39;path&#39;</span><span class="p">,</span>
+    <span class="c1"># Column name including variables</span>
+    <span class="n">variable_column_name</span><span class="o">=</span><span class="s1">&#39;variables&#39;</span><span class="p">,</span>
+    <span class="c1"># Data file format - could be netcdf or zarr (in this case, netcdf)</span>
+    <span class="n">data_format</span><span class="o">=</span><span class="s2">&quot;netcdf&quot;</span><span class="p">,</span>
+    <span class="c1"># Which attributes to groupby when reading in variables using intake-esm</span>
+    <span class="n">groupby_attrs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;component&quot;</span><span class="p">,</span> <span class="s2">&quot;stream&quot;</span><span class="p">,</span> <span class="s2">&quot;case&quot;</span><span class="p">],</span>
+    <span class="c1"># Aggregations which are fed into xarray when reading in data using intake</span>
+    <span class="n">aggregations</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;join_existing&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;attribute_name&quot;</span><span class="p">:</span> <span class="s2">&quot;date&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;dim&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="s2">&quot;minimal&quot;</span><span class="p">,</span> <span class="s2">&quot;compat&quot;</span><span class="p">:</span> <span class="s2">&quot;override&quot;</span><span class="p">},</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved catalog location: data/silver-linings-aws-year1.json and data/silver-linings-aws-year1.csv
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "conda-env-miniconda3-silverlinings-diagnostics-dev-py"
+        },
+        kernelOptions: {
+            kernelName: "conda-env-miniconda3-silverlinings-diagnostics-dev-py",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'conda-env-miniconda3-silverlinings-diagnostics-dev-py'</script>
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By NCAR ESDS Team<br/>
+        
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>
